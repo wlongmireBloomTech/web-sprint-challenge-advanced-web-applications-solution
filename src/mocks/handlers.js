@@ -172,7 +172,7 @@ export const handlers = [
           ctx.send("Your request is missing the color id")
         );
       colors = colors.filter((color) => `${color.id}` !== req.params.id);
-      return res(ctx.status(202), ctx.send(req.params.id));
+      return res(ctx.status(202), ctx.json(req.params.id));
     } else {
       res.status(403).json({ error: "User must be logged in to do that." });
     }
