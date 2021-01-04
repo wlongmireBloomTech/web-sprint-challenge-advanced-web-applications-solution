@@ -97,11 +97,11 @@ export const handlers = [
   rest.post(`${urlBase}/login`, (req, res, ctx) => {
     const { username, password } = req.body;
     if (username === "Lambda School" && password === "i<3Lambd4") {
-          return res(
-              ctx.status(200),
-              ctx.json({
-                  payload: token,
-              }))
+      return res(
+          ctx.status(200),
+          ctx.json({
+              payload: token,
+          }))
     } else {
         return res(
             ctx.status(403),
@@ -117,15 +117,12 @@ export const handlers = [
         ctx.json(colors)
       );
     } else {
-      return res(
-        ctx.status(200),
-        ctx.json(colors)
-      );
+      res.status(403).json({ error: "User must be logged in to do that." });
     }
   }),
 
   rest.post(`${urlBase}/colors`, (req, res, ctx) => {
-    authenticator(req, res, ctx, ()=>{
+    if (authenticator(req)) {
       if (req.body.color !== undefined && req.body.code !== undefined) {
         const newColor = req.body;
         newColor.id = nextId;
@@ -133,11 +130,13 @@ export const handlers = [
       }
       nextId = nextId + 1;
       return res(ctx.status(201), ctx.json(colors));
-    });
+    } else {
+      res.status(403).json({ error: "User must be logged in to do that." });
+    }
   }),
 
   rest.put(`${urlBase}/colors/:id`, (req, res, ctx) => {
-    authenticator(req, res, ctx, ()=>{
+    if (authenticator(req)) {
       if (!req.params.id) {
         return res(
           ctx.status(400),
@@ -160,11 +159,13 @@ export const handlers = [
       });
 
       return res(ctx.status(200), ctx.json(req.body));
-    });
+    } else {
+      res.status(403).json({ error: "User must be logged in to do that." });
+    }
   }),
 
   rest.delete(`${urlBase}/colors/:id`, (req, res, ctx) => {
-    authenticator(req, res, ctx, ()=>{
+    if (authenticator(req)) {
       if (!req.params.id)
         return res(
           ctx.status(400),
@@ -172,7 +173,9 @@ export const handlers = [
         );
       colors = colors.filter((color) => `${color.id}` !== req.params.id);
       return res(ctx.status(202), ctx.send(req.params.id));
-    });
+    } else {
+      res.status(403).json({ error: "User must be logged in to do that." });
+    }
   }),
 
   rest.get(urlBase, function (req, res, ctx) {
