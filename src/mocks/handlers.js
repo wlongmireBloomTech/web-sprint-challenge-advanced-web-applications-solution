@@ -85,83 +85,97 @@ let colors = [
 
 let nextId = 12;
 
-function authenticator(req, res, next) {
-  const { authorization } = req.headers;
-  if (authorization === token) {
-    next();
-  } else {
-    res.status(403).json({ error: "User must be logged in to do that." });
-  }
+function authenticator(req) {
+  const { authorization } = req.headers.map;
+  return (authorization === token);
 }
+
+const urlBase = 'http://localhost:5000/api';
 
 export const handlers = [
   // Handles a POST /login request
-  rest.post("/login", (req, res, ctx) => {
+  rest.post(`${urlBase}/login`, (req, res, ctx) => {
     const { username, password } = req.body;
     if (username === "Lambda School" && password === "i<3Lambd4") {
-      req.loggedIn = true;
-      setTimeout(() => {
-        return res(
-          ctx.status(200),
-          ctx.json({
-            payload: token,
-          })
-        );
-      }, 1000);
+          return res(
+              ctx.status(200),
+              ctx.json({
+                  payload: token,
+              }))
     } else {
-      return res(
-        ctx.status(403),
-        ctx.json({ error: "Username or Password incorrect. Please see Readme" })
-      );
+        return res(
+            ctx.status(403),
+            ctx.json({ error: "Username or Password incorrect. Please see Readme" })
+        );
     }
   }),
   // Handles a GET /user request
-  rest.get("/api/colors", authenticator, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.send(colors));
-  }),
-
-  rest.post("/api/colors", authenticator, (req, res, ctx) => {
-    if (req.body.color !== undefined && req.body.code !== undefined) {
-      const newColor = req.body;
-      newColor.id = nextId;
-      colors.push(newColor);
-    }
-    nextId = nextId + 1;
-    return res(ctx.status(201), ctx.json(colors));
-  }),
-
-  rest.put("/api/colors/:id", authenticator, (req, res, ctx) => {
-    if (!req.params.id)
+  rest.get(`${urlBase}/colors`, (req, res, ctx) => {
+    if (authenticator(req)) {
       return res(
-        ctx.status(400),
-        ctx.send("Your request is missing the color id")
+        ctx.status(200),
+        ctx.json(colors)
       );
-    if (req.body.id === undefined || !req.body.color || !req.body.code) {
+    } else {
       return res(
-        ctx.status(422),
-        ctx.send("Make sure your request body has all the fields it needs")
+        ctx.status(200),
+        ctx.json(colors)
       );
     }
-    colors = colors.map((color) => {
-      if (`${color.id}` === req.params.id) {
-        return req.body;
+  }),
+
+  rest.post(`${urlBase}/colors`, (req, res, ctx) => {
+    authenticator(req, res, ctx, ()=>{
+      if (req.body.color !== undefined && req.body.code !== undefined) {
+        const newColor = req.body;
+        newColor.id = nextId;
+        colors.push(newColor);
       }
-      return color;
+      nextId = nextId + 1;
+      return res(ctx.status(201), ctx.json(colors));
     });
-    return res(ctx.status(200), ctx.json(req.body));
   }),
 
-  rest.delete("/api/colors/:id", authenticator, (req, res, ctx) => {
-    if (!req.params.id)
-      return res(
-        ctx.status(400),
-        ctx.send("Your request is missing the color id")
-      );
-    colors = colors.filter((color) => `${color.id}` !== req.params.id);
-    return res(ctx.status(202), ctx.send(req.params.id));
+  rest.put(`${urlBase}/colors/:id`, (req, res, ctx) => {
+    authenticator(req, res, ctx, ()=>{
+      if (!req.params.id) {
+        return res(
+          ctx.status(400),
+          ctx.send("Your request is missing the color id")
+        );
+      }
+
+      if (req.body.id === undefined || !req.body.color || !req.body.code) {
+        return res(
+          ctx.status(422),
+          ctx.send("Make sure your request body has all the fields it needs")
+        );
+      }
+
+      colors = colors.map((color) => {
+        if (`${color.id}` === req.params.id) {
+          return req.body;
+        }
+        return color;
+      });
+
+      return res(ctx.status(200), ctx.json(req.body));
+    });
   }),
 
-  rest.get("/", function (req, res, ctx) {
+  rest.delete(`${urlBase}/colors/:id`, (req, res, ctx) => {
+    authenticator(req, res, ctx, ()=>{
+      if (!req.params.id)
+        return res(
+          ctx.status(400),
+          ctx.send("Your request is missing the color id")
+        );
+      colors = colors.filter((color) => `${color.id}` !== req.params.id);
+      return res(ctx.status(202), ctx.send(req.params.id));
+    });
+  }),
+
+  rest.get(urlBase, function (req, res, ctx) {
     return res(ctx.send("App is working 👍"));
   }),
 ];

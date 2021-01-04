@@ -5,6 +5,6 @@ export const axiosWithAuth = () => {
     headers: {
       authorization: localStorage.getItem("token"),
     },
-    baseURL: "http://localhost:5000",
+    baseURL: "http://localhost:5000/api",
   });
 };
