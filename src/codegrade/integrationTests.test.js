@@ -8,7 +8,7 @@ import BubblePage from "./../components/BubblePage.js";
 const correctUsername = "Lambda School";
 const correctPassword = "i<3Lambd4";
 
-const triggerLogin = (username, password)=> {
+const doLogin = (username, password)=> {
     const nameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText(/password/i);
 
@@ -26,7 +26,7 @@ test('App renders without errors', ()=> {
 test("App does nothing when login incorrect username", async ()=>{
     render(<App />);
     
-    triggerLogin('notFound', correctPassword);
+    doLogin('notFound', correctPassword);
     const errorMessage = await screen.findByText(/Username or Password not valid./i);
 
     expect(errorMessage).toBeTruthy();
@@ -35,7 +35,7 @@ test("App does nothing when login incorrect username", async ()=>{
 test("App does nothing when login incorrect password", async ()=>{
     render(<App />);
     
-    triggerLogin(correctUsername, 'notFound');
+    doLogin(correctUsername, 'notFound');
     const errorMessage = await screen.findByText(/Username or Password not valid./i);
 
     expect(errorMessage).toBeTruthy();
@@ -44,7 +44,7 @@ test("App does nothing when login incorrect password", async ()=>{
 test("App navigates to /bubbles when correct username/password is given", async ()=>{
     render(<App />);
     
-    triggerLogin(correctUsername, correctPassword);
+    doLogin(correctUsername, correctPassword);
     
     const colorTitle = await screen.findByText(/colors/i);
     const bubblesTitle = screen.findByText(/bubbles/i);
