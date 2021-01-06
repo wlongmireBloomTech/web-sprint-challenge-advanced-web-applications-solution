@@ -97,8 +97,11 @@ button {
   margin-top: 16px;
 }
 
+.error {
+  color: red;
+}
+
 .login-form {
-  height: 220px;
   align-self: center;
   margin: 0 auto;
   border: 1px solid black;
