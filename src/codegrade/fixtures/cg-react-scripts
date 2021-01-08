@@ -1,0 +1,93 @@
+#!/usr/bin/env python3.7
+import argparse
+import os
+import subprocess
+import sys
+
+NPM_DIR = os.path.expanduser('~/.npm')
+
+
+def cg_run(args):
+    xml_loc = os.environ.get('CG_JUNIT_XML_LOCATION')
+    if xml_loc is None:
+        print(
+            'No location for the output found, make sure you are using the correct step type',
+            file=sys.stderr)
+        sys.exit(2)
+
+    del os.environ['CG_JUNIT_XML_LOCATION']
+    os.environ['JEST_JUNIT_OUTPUT_DIR'] = os.path.dirname(xml_loc)
+    os.environ['JEST_JUNIT_OUTPUT_NAME'] = os.path.basename(xml_loc)
+    os.environ['JEST_JUNIT_ADD_FILE_ATTRIBUTE'] = 'false'
+    os.environ['JEST_JUNIT_INCLUDE_CONSOLE_OUTPUT'] = 'false'
+    os.environ['JEST_JUNIT_INCLUDE_SHORT_CONSOLE_OUTPUT'] = 'false'
+    os.environ['JEST_JUNIT_ANCESTOR_SEPARATOR'] = ' > '
+    os.environ['JEST_JUNIT_REPORT_TEST_SUITE_ERRORS'] = 'true'
+    os.environ['NPM_CONFIG_PREFIX'] = NPM_DIR
+
+    extra_node_path = os.path.join(NPM_DIR, 'lib', 'node_modules')
+    if os.environ.get('NODE_PATH'):
+        os.environ['NODE_PATH'] += ':{}'.format(extra_node_path)
+    else:
+        os.environ['NODE_PATH'] = extra_node_path
+
+    local_npm_bin = subprocess.check_output(
+        ['npm', 'bin'],
+        universal_newlines=True,
+    ).strip()
+
+    proc = subprocess.run(
+        [
+            os.path.join(local_npm_bin, 'react-scripts'),
+            'test',
+            *args.TO_TEST,
+            '--ci',
+            '--reporters={}'.format(
+                # TODO: Figure out why we can't simply specify `jest-junit`
+                os.path.join(extra_node_path, 'jest-junit', 'index.js')),
+        ],
+        env={
+            **os.environ,
+            'CI': 'true',
+        },
+        check=False,
+    )
+    sys.exit(proc.returncode)
+
+
+def cg_install(_):
+    subprocess.check_call(['npm', 'config', 'set', 'prefix', NPM_DIR])
+    os.execvp('npm', [
+        'npm',
+        'install',
+        '-g',
+        'git://github.com/CodeGra-de/jest-junit#bugfix/fix-total-test-amount',
+    ])
+    sys.exit(1)
+
+
+def main():
+    parser = argparse.ArgumentParser(prog='cg-react-scripts')
+    sub_parser = parser.add_subparsers(
+        title='subcommands', metavar='action', required=True)
+
+    install_parser = sub_parser.add_parser(
+        'install', help='Install jest and its dependencies')
+    install_parser.set_defaults(func=cg_install)
+
+    run_parser = sub_parser.add_parser(
+        'run', help='Run jest to test the given files or directories')
+    run_parser.add_argument(
+        'TO_TEST',
+        nargs=argparse.ONE_OR_MORE,
+        help='The files or directories to test with jest')
+    run_parser.set_defaults(func=cg_run)
+
+    args = parser.parse_args(sys.argv[1:])
+    if hasattr(args, 'func'):
+        args.func(args)
+    os._exit(3)
+
+
+if __name__ == '__main__':
+    main()
