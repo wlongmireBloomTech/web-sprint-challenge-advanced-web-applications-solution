@@ -1,9 +1,10 @@
 import React from 'react';
+import MutationObserver from 'mutationobserver-shim';
+
 import { render, screen, fireEvent, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import App from "./../App.js";
-import BubblePage from "./../components/BubblePage.js";
 
 const correctUsername = "Lambda School";
 const correctPassword = "i<3Lambd4";
@@ -33,122 +34,122 @@ test("App does nothing when login incorrect username", async ()=>{
     expect(errorMessage).toBeTruthy();
 });
 
-// test("App does nothing when login incorrect password", async ()=>{
-//     render(<App />);
+test("App does nothing when login incorrect password", async ()=>{
+    render(<App />);
     
-//     doLogin(correctUsername, 'notFound');
-//     const errorMessage = await screen.findByText(/Username or Password not valid./i);
+    doLogin(correctUsername, 'notFound');
+    const errorMessage = await screen.findByText(/Username or Password not valid./i);
 
-//     expect(errorMessage).toBeTruthy();
-// });
+    expect(errorMessage).toBeTruthy();
+});
 
-// test("App navigates to /bubbles when correct username/password is given", async ()=>{
-//     render(<App />);
+test("App navigates to /bubbles when correct username/password is given", async ()=>{
+    render(<App />);
     
-//     doLogin(correctUsername, correctPassword);
+    doLogin(correctUsername, correctPassword);
     
-//     const colorTitle = await screen.findByText(/colors/i);
-//     const bubblesTitle = screen.findByText(/bubbles/i);
+    const colorTitle = await screen.findByText(/colors/i);
+    const bubblesTitle = screen.findByText(/bubbles/i);
 
-//     expect(colorTitle).toBeTruthy();
-//     expect(bubblesTitle).toBeTruthy();
-// });  
+    expect(colorTitle).toBeTruthy();
+    expect(bubblesTitle).toBeTruthy();
+});  
 
-// test("When navigating to /bubbles, all colors are loaded and displayed from server.", async ()=>{
-//     render(<App />);
+test("When navigating to /bubbles, all colors are loaded and displayed from server.", async ()=>{
+    render(<App />);
 
-//     const colors = await screen.findAllByTestId(/color/i);
-//     expect(colors).toHaveLength(11);
-// });
+    const colors = await screen.findAllByTestId(/color/i);
+    expect(colors).toHaveLength(11);
+});
 
-// test("When a color is clicked, delete icon appears.", async ()=>{
-//     render(<App />);
+test("When a color is clicked, delete icon appears.", async ()=>{
+    render(<App />);
     
-//     const colors = await screen.findAllByTestId(/color/i);
-//     const firstColor = colors[0];
-//     userEvent.click(firstColor);
+    const colors = await screen.findAllByTestId(/color/i);
+    const firstColor = colors[0];
+    userEvent.click(firstColor);
 
-//     await waitFor(()=>{
-//         expect(firstColor.firstChild.textContent[0]).toBe("x");
-//     });
-// });
+    await waitFor(()=>{
+        expect(firstColor.firstChild.textContent[0]).toBe("x");
+    });
+});
 
-// test("When a color is clicked, edit menu appears.", async ()=>{
-//     render(<App />);
+test("When a color is clicked, edit menu appears.", async ()=>{
+    render(<App />);
     
-//     const colors = await screen.findAllByTestId(/color/i);
-//     const firstColor = colors[0];
-//     userEvent.click(firstColor);
+    const colors = await screen.findAllByTestId(/color/i);
+    const firstColor = colors[0];
+    userEvent.click(firstColor);
 
-//     const editMenuText = await screen.findByText('edit color');
-//     expect(editMenuText).toBeTruthy();
-// });
+    const editMenuText = await screen.findByText('edit color');
+    expect(editMenuText).toBeTruthy();
+});
 
-// test("When the cancel button is clicked, edit mode is turned off.", async ()=>{
-//     render(<App />);
+test("When the cancel button is clicked, edit mode is turned off.", async ()=>{
+    render(<App />);
     
-//     let colors = await screen.findAllByTestId(/color/i);
-//     let firstColor = colors[0];
-//     userEvent.click(firstColor);
+    let colors = await screen.findAllByTestId(/color/i);
+    let firstColor = colors[0];
+    userEvent.click(firstColor);
 
-//     const button = screen.getByRole("button", {name:/cancel/i});
-//     userEvent.click(button);
+    const button = screen.getByRole("button", {name:/cancel/i});
+    userEvent.click(button);
 
-//     colors = await screen.findAllByTestId(/color/i);
-//     firstColor = colors[0];
+    colors = await screen.findAllByTestId(/color/i);
+    firstColor = colors[0];
         
-//     await waitFor(()=>{
-//         expect(firstColor.firstChild.textContent[0]).not.toBe("x");
-//     });
-// });
+    await waitFor(()=>{
+        expect(firstColor.firstChild.textContent[0]).not.toBe("x");
+    });
+});
 
-// test("When a new color name is entered and save is clicked, that name is replaced within the colors list", async ()=>{
-//     render(<App />);
+test("When a new color name is entered and save is clicked, that name is replaced within the colors list", async ()=>{
+    render(<App />);
     
-//     let colors = await screen.findAllByTestId(/color/i);
-//     let firstColor = colors[0];
-//     userEvent.click(firstColor);
+    let colors = await screen.findAllByTestId(/color/i);
+    let firstColor = colors[0];
+    userEvent.click(firstColor);
 
-//     const colorName = await screen.findByLabelText(/color name:/i);
-//     userEvent.type(colorName, "{selectall}{del}testColor");
+    const colorName = await screen.findByLabelText(/color name:/i);
+    userEvent.type(colorName, "{selectall}{del}testColor");
 
-//     const colorHex = await screen.findByLabelText(/hex code:/i);
-//     userEvent.type(colorHex, "{selectall}{del}#000000");
+    const colorHex = await screen.findByLabelText(/hex code:/i);
+    userEvent.type(colorHex, "{selectall}{del}#000000");
 
-//     const saveButton = await screen.getByRole("button", {name:"save"});
-//     userEvent.click(saveButton);
+    const saveButton = await screen.getByRole("button", {name:"save"});
+    userEvent.click(saveButton);
 
-//     colors = await screen.findAllByTestId(/color/i);
+    colors = await screen.findAllByTestId(/color/i);
 
-//     await waitFor( async ()=>{
-//         colors = screen.queryAllByTestId(/color/i);
-//         firstColor = colors[0];
-//         expect(firstColor.textContent).toBe(" testColor");
+    await waitFor( async ()=>{
+        colors = screen.queryAllByTestId(/color/i);
+        firstColor = colors[0];
+        expect(firstColor.textContent).toBe(" testColor");
 
-//         const colorBox = firstColor.children[1];
-//         expect(colorBox.style.backgroundColor).toBe('rgb(0, 0, 0)');
-//     });
-// });
+        const colorBox = firstColor.children[1];
+        expect(colorBox.style.backgroundColor).toBe('rgb(0, 0, 0)');
+    });
+});
 
-// test("When the delete icon is clicked, that color is removed from the colors list", async ()=>{
-//     render(<App />);
+test("When the delete icon is clicked, that color is removed from the colors list", async ()=>{
+    render(<App />);
     
-//     const colors = await screen.findAllByTestId(/color/i);
-//     const firstColor = colors[0];
-//     const firstColorName = firstColor.textContent;
+    const colors = await screen.findAllByTestId(/color/i);
+    const firstColor = colors[0];
+    const firstColorName = firstColor.textContent;
 
-//     userEvent.click(firstColor);
+    userEvent.click(firstColor);
 
-//     let deleteLink;
+    let deleteLink;
 
-//     await waitFor(()=>{
-//         deleteLink = firstColor.firstChild;
-//     });
+    await waitFor(()=>{
+        deleteLink = firstColor.firstChild;
+    });
 
-//     userEvent.click(deleteLink);
+    userEvent.click(deleteLink);
 
-//     await waitFor(()=>{
-//         const missingColor = screen.queryByText(firstColorName);
-//         expect(missingColor).toBeNull();
-//     });
-// });
+    await waitFor(()=>{
+        const missingColor = screen.queryByText(firstColorName);
+        expect(missingColor).toBeNull();
+    });
+});

@@ -6,6 +6,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import BubblePage from "./components/BubblePage";
 import "./styles.scss";
 
+
 function App() {
   return (
     <Router>
