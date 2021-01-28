@@ -23,17 +23,6 @@ In this project you will create a login page and request a token from the server
 
 Commit your code regularly and meaningfully. This helps both you (in case you ever need to return to old code for any number of reasons) and your team lead as the evaluate your solution.
 
-## Interview Questions
-
-Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. You might prepare by writing down your own answers before hand.
-
-1. Explain what a token is used for.
-2. What steps can you take in your web apps to keep your data secure?
-3. Describe how web servers work.
-4. Which HTTP methods can be mapped to the CRUD acronym that we use when interfacing with APIs/Servers.
-
-You are expected to be able to answer questions in these areas. Your responses contribute to your Sprint Challenge grade. 
-
 ## Instructions
 
 ### Task 1: Project Set Up
@@ -70,11 +59,11 @@ Build a login form to authenticate your users.
 
 #### API Documentation
 
-  * **[POST]** * to `/api/login`: returns a token to be added to the header of all other requests. Pass in the following credentials as the `body` of the request: `{ username: 'Lambda School', password: 'i<3Lambd4' }`
-  * **[GET]** to `/api/colors`: returns the list of colors and their hex codes.
-  * **[POST]** to `/api/colors`: creates a new color object. Pass the color as the `body` of the request (the second argument passed to `axios.post`).
-  * **[PUT]** to `/api/colors/:id`: updates the color using the `id` passed as part of the URL. Send the color object with the updated information as the `body` of the request (the second argument passed to `axios.put`).
-  * **[DELETE]** to `/api/colors/123`: removes the color using the `id` passed as part of the URL (123 in example).
+  * **[POST]** * to `http://localhost:5000/api/api/login`: returns a token to be added to the header of all other requests. Pass in the following credentials as the `body` of the request: `{ username: 'Lambda School', password: 'i<3Lambd4' }`
+  * **[GET]** to `http://localhost:5000/api/api/colors`: returns the list of colors and their hex codes.
+  * **[POST]** to `http://localhost:5000/api/api/colors`: creates a new color object. Pass the color as the `body` of the request (the second argument passed to `axios.post`).
+  * **[PUT]** to `http://localhost:5000/api/api/colors/:id`: updates the color using the `id` passed as part of the URL. Send the color object with the updated information as the `body` of the request (the second argument passed to `axios.put`).
+  * **[DELETE]** to `http://localhost:5000/api/api/colors/123`: removes the color using the `id` passed as part of the URL (123 in example).
 
 #### Stage 3 Testing
 - [ ] Finish the test in `BubblePage.test.js` to test that your app is fetching the bubble data from the API
@@ -93,8 +82,7 @@ After finishing your required elements, you can push your work further. These go
 
 Follow these steps for completing your project.
 
-- [ ] Submit a Pull-Request to merge <firstName-lastName> Branch into master (student's  Repo). **Please don't merge your own pull request**
-- [ ] Add your team lead as a reviewer on the pull-request
-- [ ] Your team lead will count the project as complete after receiving your pull-request
-
-
+- [ ] Ensure that your projects are complete on your <firstName-lastName> branch.
+- [ ] Merge your <firstName-lastName> branch into your main branch.
+- [ ] Push your main branch to github and check that it is registers within codegrade.
+- [ ] Check your personal feedback the following Monday. For more information check [here](https://www.notion.so/lambdaschool/How-to-View-Feedback-in-CodeGrade-Student-facing-c5147cee220c4044a25de28bcb6bb54a)
