@@ -31,10 +31,15 @@ npm i && setup.bash
 #### Checking student code to grade compliance with project specifications
 
 **Category Rubric:** Student Implementation MVP
+
 **Category Step:** Unit Test
+
 **Category Name:** Student Implementation MVP
+
 **Weight:** 1
+
 **Program To test:**
+
 ```bash
 cg-react-scripts run src/codegrade/codegrade_mvp.test.js
 ```
@@ -42,10 +47,15 @@ cg-react-scripts run src/codegrade/codegrade_mvp.test.js
 #### Checking student tests
 
 **Category Rubric:** Student Tests
+
 **Category Step:** Unit Test
+
 **Category Name:** Student Tests
+
 **Weight:** 1
+
 **Program To test:**
+
 ```bash
 cg-react-scripts run src/components/BubblePage.test.js
 ```
