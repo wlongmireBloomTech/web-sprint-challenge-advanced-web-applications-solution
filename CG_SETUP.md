@@ -25,37 +25,48 @@ cg-react-scripts install
 ```bash
 npm i && setup.bash
 ```
+---
 
-### Programs to test
+## Rubrics
+### Client MVP Rubic
+> **Category Name:** Client MVP
 
-#### Checking student code to grade compliance with project specifications
+> **Category Description:** Base tests for project client code.
 
-**Category Rubric:** Student Implementation MVP
+> **Max Points:** 10
 
-**Category Step:** Unit Test
+### Client Test Rubic
+> **Category Name:** Test MVP
 
-**Category Name:** Student Implementation MVP
+> **Category Description:** Base tests for project test code.
 
-**Weight:** 1
+> **Max Points:** 10
+---
+## AutoGrade Levels
+### Client MVP Level
+> **Category Rubric:** Client MVP
 
-**Program To test:**
+> **Category Step:** Unit Test
 
+> **Category Name:** Student Implementation MVP
+
+> **Weight:** 1
+
+> **Program To test:**
 ```bash
 cg-react-scripts run src/codegrade/codegrade_mvp.test.js
 ```
 
-#### Checking student tests
+### Client Test Level
+> **Category Rubric:** Test MVP
 
-**Category Rubric:** Student Tests
+> **Category Step:** Unit Test
 
-**Category Step:** Unit Test
+> **Category Name:** Student Test MVP
 
-**Category Name:** Student Tests
+> **Weight:** 1
 
-**Weight:** 1
-
-**Program To test:**
-
+> **Program To test:**
 ```bash
 cg-react-scripts run src/components/BubblePage.test.js
 ```
