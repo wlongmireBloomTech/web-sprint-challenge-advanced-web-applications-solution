@@ -1,7 +1,7 @@
 import React from 'react';
 import MutationObserver from 'mutationobserver-shim';
 
-import { render, screen, fireEvent, waitFor, within} from '@testing-library/react';
+import { render, screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import App from "./../App.js";
@@ -13,11 +13,14 @@ const doLogin = (username, password)=> {
     const nameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText(/password/i);
     
+    userEvent.clear(nameInput);
     userEvent.type(nameInput, username);
+
+    userEvent.clear(passwordInput);
     userEvent.type(passwordInput, password);
 
-    const button = screen.getByRole("button", {name:/Login/i});
-    fireEvent.click(button);
+    const button = screen.getByRole("button");
+    userEvent.click(button);
 }
 
 describe("Login Authentication", ()=>{
@@ -47,14 +50,13 @@ describe("Login Authentication", ()=>{
         render(<App />);
         
         doLogin(correctUsername, correctPassword);
-        
+
         const colorTitle = await screen.findByText(/colors/i);
-        const bubblesTitle = screen.findByText(/bubbles/i);
-    
+        const bubblesTitle = screen.queryByText(/bubbles/i);
+        
         expect(colorTitle).toBeTruthy();
         expect(bubblesTitle).toBeTruthy();
-    });  
-    
+    });
 });
 
 describe("Color Interface", ()=>{

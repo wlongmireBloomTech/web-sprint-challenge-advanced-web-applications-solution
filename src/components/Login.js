@@ -24,6 +24,7 @@ const Login = () => {
     axios
       .post("http://localhost:5000/api/login", formValues)
       .then((res) => {
+        console.log('client payload: ', res.data.payload);
         localStorage.setItem("token", res.data.payload);
         setError("");
         history.push("/bubbles");
