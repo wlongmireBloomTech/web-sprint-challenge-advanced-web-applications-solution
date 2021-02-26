@@ -7,10 +7,10 @@ const Login = () => {
   // when you have handled the token, navigate to the BubblePage route
   const history = useHistory();
   const [formValues, setFormValues] = useState({
-    // username: "Lambda School",
-    // password: "i<3Lambd4",
-    username: "",
-    password: ""
+    username: "Lambda School",
+    password: "i<3Lambd4",
+    // username: "",
+    // password: ""
   });
 
   const [error, setError] = useState("");
