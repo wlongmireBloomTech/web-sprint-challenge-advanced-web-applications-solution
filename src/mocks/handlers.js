@@ -117,7 +117,10 @@ export const handlers = [
         ctx.json(colors)
       );
     } else {
-      res.status(403).json({ error: "User must be logged in to do that." });
+      res(
+        ctx.status(403),
+        ctx.json({ error: "User must be logged in to do that." })
+      )
     }
   }),
 
@@ -129,9 +132,15 @@ export const handlers = [
         colors.push(newColor);
       }
       nextId = nextId + 1;
-      return res(ctx.status(201), ctx.json(colors));
+      return res(
+        ctx.status(201), 
+        ctx.json(colors)
+      );
     } else {
-      res.status(403).json({ error: "User must be logged in to do that." });
+      return res(
+        ctx.status(403),
+        ctx.json({ error: "User must be logged in to do that." })
+      )
     }
   }),
 
@@ -160,7 +169,10 @@ export const handlers = [
 
       return res(ctx.status(200), ctx.json(req.body));
     } else {
-      res.status(403).json({ error: "User must be logged in to do that." });
+      return res(
+        ctx.status(403),
+        ctx.json({ error: "User must be logged in to do that." })
+      );
     }
   }),
 
@@ -174,11 +186,17 @@ export const handlers = [
       colors = colors.filter((color) => `${color.id}` !== req.params.id);
       return res(ctx.status(202), ctx.json(req.params.id));
     } else {
-      res.status(403).json({ error: "User must be logged in to do that." });
+      return res(
+        ctx.status(403),
+        ctx.json({ error: "User must be logged in to do that." })
+      )
     }
   }),
 
   rest.get(urlBase, function (req, res, ctx) {
-    return res(ctx.send("App is working 👍"));
+    return res(
+      ctx.status(200),
+      ctx.json("The App is working!")
+    );
   }),
 ];
