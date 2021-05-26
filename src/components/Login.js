@@ -5,10 +5,10 @@ import { useHistory } from "react-router-dom";
 const Login = () => {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
-  const history = useHistory();
+  const { push } = useHistory();
   const [formValues, setFormValues] = useState({
-    username: "Lambda School",
-    password: "i<3Lambd4",
+    username: "Lambda",
+    password: "School",
     // username: "",
     // password: ""
   });
@@ -24,18 +24,17 @@ const Login = () => {
     axios
       .post("http://localhost:5000/api/login", formValues)
       .then((res) => {
-        console.log('client payload: ', res.data.payload);
         localStorage.setItem("token", res.data.payload);
         setError("");
-        history.push("/bubbles");
+        push("/bubbles");
       })
       .catch((err) => {
         if (err.response.status === 403) {
           setError("Username or Password not valid.");
         }
-        // console.log(err.message);
       });
   };
+  
   return (
     <div className="login-form">
       <h1>Bubbles!</h1>
