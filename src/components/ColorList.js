@@ -20,7 +20,6 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = (e) => {
     e.preventDefault();
-    console.log(editColor);
 
     editColorService(colorToEdit)
     .then((res) => {
@@ -35,7 +34,6 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const deleteColor = (colorToDelete) => {
-
       deleteColorService(colorToDelete)
       .then(res=>{
         updateColors(
@@ -53,8 +51,6 @@ const ColorList = ({ colors, updateColors }) => {
       </ul>
       
       {editing && <EditMenu colorToEdit={colorToEdit} saveEdit={saveEdit} setColorToEdit={setColorToEdit} setEditing={setEditing}/>}
-      <div className="spacer" />
-      {/* stretch - build another form here to add a color */}
     </div>
   );
 };

@@ -12,9 +12,6 @@ const BubblePage = () => {
     fetchColorService()
       .then((res) => {
         setColorList(res.data);
-      })
-      .catch(err => {
-        console.log("Error: ", err);
       });
   }, []);
 
