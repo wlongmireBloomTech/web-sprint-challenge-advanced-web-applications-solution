@@ -90,12 +90,10 @@ describe("Color Interface", ()=>{
     
         const button = screen.getByRole("button", {name:/cancel/i});
         userEvent.click(button);
-    
-        colors = await screen.findAllByTestId(/color/i);
-        firstColor = colors[0];
             
         await waitFor(()=>{
-            expect(firstColor.firstChild.textContent[0]).not.toBe("x");
+            const editMenuText = screen.queryByText('edit color');
+            expect(editMenuText).toBeFalsy();
         });
     });
     
@@ -112,15 +110,15 @@ describe("Color Interface", ()=>{
         const colorHex = await screen.findByLabelText(/hex code:/i);
         userEvent.type(colorHex, "{selectall}{del}#000000");
     
-        const saveButton = await screen.getByRole("button", {name:"save"});
+        let saveButton = await screen.findByTestId("submitButton");
         userEvent.click(saveButton);
-    
-        colors = await screen.findAllByTestId(/color/i);
-    
+        saveButton = await screen.findByTestId("submitButton");
+        saveButton = await screen.findByTestId("submitButton");
+
         await waitFor( async ()=>{
             colors = screen.queryAllByTestId(/color/i);
-            firstColor = colors[0];
-            expect(firstColor.textContent).toBe(" testColor");
+            const firstColor = colors[0];
+            expect(firstColor.textContent).toContain("testColor");
     
             const colorBox = firstColor.children[1];
             expect(colorBox.style.backgroundColor).toBe('rgb(0, 0, 0)');
