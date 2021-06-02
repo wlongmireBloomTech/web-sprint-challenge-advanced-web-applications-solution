@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React from 'react';
 
 const EditMenu = (props) => {
   const {editColor, setEditColor, saveEdit, toggleEdit} = props;

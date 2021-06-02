@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { loginService } from "./../services/colorService";
+import { loginService } from "../services/colorServices";
 
 const Login = () => {
   const { push } = useHistory();
