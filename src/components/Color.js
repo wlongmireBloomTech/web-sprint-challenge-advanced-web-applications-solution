@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const Color = (props) => {
     const {color, setEditColor, toggleEdit, deleteColor} = props;
 
@@ -18,7 +17,7 @@ const Color = (props) => {
     return(<li data-testid="color" onClick={handleEdit}>
 
         <span>
-            <span className="delete" onClick={handleDelete}>x</span>
+            <span className="delete" data-testid="delete" onClick={handleDelete}>x</span>
             {` ${color.color}`}
         </span>
         <div 
