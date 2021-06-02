@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 
+import { loginService } from "./../services/colorService";
+
 const Login = () => {
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
-  const history = useHistory();
+  const { push } = useHistory();
+
   const [formValues, setFormValues] = useState({
-    username: "Lambda School",
-    password: "i<3Lambd4",
-    // username: "",
-    // password: ""
+    username: "",
+    password: ""
   });
 
   const [error, setError] = useState("");
@@ -21,21 +19,19 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/api/login", formValues)
-      .then((res) => {
-        console.log('client payload: ', res.data.payload);
-        localStorage.setItem("token", res.data.payload);
-        setError("");
-        history.push("/bubbles");
-      })
-      .catch((err) => {
-        if (err.response.status === 403) {
-          setError("Username or Password not valid.");
-        }
-        // console.log(err.message);
-      });
+      loginService(formValues)
+        .then((res) => {
+          localStorage.setItem("token", res.data.payload);
+          setError("");
+          push("/bubbles");
+        })
+        .catch((err) => {
+          if (err.response.status === 403) {
+            setError("Username or Password not valid.");
+          }
+        });
   };
+  
   return (
     <div className="login-form">
       <h1>Bubbles!</h1>
@@ -44,6 +40,7 @@ const Login = () => {
         <input
           id="username"
           name="username"
+  
           type="text"
           value={formValues.username}
           onChange={handleChanges}
