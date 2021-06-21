@@ -13,7 +13,8 @@ const correctPassword = "School";
 const doLogin = (username, password)=> {
     const nameInput = document.querySelector("#username");
     const passwordInput = document.querySelector("#password");
-    
+
+
     userEvent.clear(nameInput);
     userEvent.type(nameInput, username);
 
