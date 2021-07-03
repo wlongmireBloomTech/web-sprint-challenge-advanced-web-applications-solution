@@ -23,7 +23,7 @@ const BubblePage = () => {
 
   const saveEdit = (editColor) => {
     axiosWithAuth()
-      .put(`/colors/${editColor.id}`, editColor)screen
+      .put(`/colors/${editColor.id}`, editColor)
       .then((res) => {
         setColors(
           colors.map((color) =>
