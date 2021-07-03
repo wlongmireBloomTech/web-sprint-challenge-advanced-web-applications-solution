@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-
-import { loginService } from "../services/colorServices";
+import axios from 'axios';
 
 const Login = () => {
   const { push } = useHistory();
@@ -19,7 +18,8 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-      loginService(formValues)
+    return axios
+        .post("http://localhost:5000/api/login", formValues)
         .then((res) => {
           localStorage.setItem("token", res.data.payload);
           setError("");
@@ -34,13 +34,11 @@ const Login = () => {
   
   return (
     <div className="login-form">
-      <h1>Bubbles!</h1>
       <form onSubmit={handleLogin}>
         <label htmlFor="username">username:</label>
         <input
           id="username"
           name="username"
-  
           type="text"
           value={formValues.username}
           onChange={handleChanges}
@@ -55,9 +53,9 @@ const Login = () => {
           onChange={handleChanges}
         />
 
-        <p className="error">{error}</p>
+        <p id="error" className="error">{error}</p>
 
-        <button className="button">Login</button>
+        <button id="submit" className="button">Login</button>
       </form>
     </div>
   );

@@ -5,62 +5,56 @@ import { render, screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import App from "../../src/App.js";
-import { act } from 'react-dom/test-utils';
 
 const correctUsername = "Lambda";
 const correctPassword = "School";
 
 const doLogin = (username, password)=> {
-    const nameInput = document.querySelector("#username");
-    const nameInput2 = screen.queryByTestId("username");
-
+    const nameInput = document.querySelector("#username");    
     const passwordInput = document.querySelector("#password");
-    const passwordInput2 = screen.queryByTestId("password");
 
-    const nameI = nameInput2 || nameInput
-    const passwordI = passwordInput2 || passwordInput
-    userEvent.clear(nameI);
-    userEvent.type(nameI, username);
+    userEvent.clear(nameInput);
+    userEvent.type(nameInput, username);
 
-    userEvent.clear(passwordI);
-    userEvent.type(passwordI, password);
+    userEvent.clear(passwordInput);
+    userEvent.type(passwordInput, password);
 
-    const button = screen.getByRole("button");
+    
+    const button = document.querySelector("#submit");
     userEvent.click(button);
 }
 
 describe("Login Authentication", ()=>{
-    test('App renders without errors', ()=> {
-        render(<App />);
-    });
-    
     test("App does nothing when login incorrect username", async ()=>{
         render(<App />);
         
         doLogin('notFound', correctPassword);
-        const errorMessage = await screen.findByText(/Username or Password not valid./i);
-    
-        expect(errorMessage).toBeTruthy();
+        waitFor(()=> {
+            const errorMessage = document.querySelector("#error");
+            expect(errorMessage).toBeTruthy();
+        })
+        
     });
     
     test("App does nothing when login incorrect password", async ()=>{
         render(<App />);
         
         doLogin(correctUsername, 'notFound');
-        const errorMessage = await screen.findByText(/Username or Password not valid./i);
-    
-        expect(errorMessage).toBeTruthy();
+
+        waitFor(()=> {
+            const errorMessage = document.querySelector("#error");
+            expect(errorMessage).toBeTruthy();
+        });
     });
 
     test("App navigates to /bubbles when correct username/password is given", async ()=>{
         render(<App />);
         doLogin(correctUsername, correctPassword);
-        
 
-        await waitFor(()=>{
+        waitFor(()=>{
             const bubblesTitle = screen.getByText(/bubbles/i);
             const colorTitle = screen.getByText(/colors/i);
-
+            
             expect(colorTitle).toBeTruthy();
             expect(bubblesTitle).toBeTruthy();
         });
@@ -70,9 +64,11 @@ describe("Login Authentication", ()=>{
 describe("Color Interface", ()=>{
     test("When navigating to /bubbles, all colors are loaded and displayed from server.", async ()=>{
         render(<App />);
-    
-        const colors = await screen.findAllByTestId(/color/i);
-        expect(colors).toHaveLength(11);
+        
+        await waitFor(()=>{
+            const colors = screen.getAllByTestId(/color/i);
+            expect(colors).toHaveLength(11);
+        });
     });
     
     test("When a color is clicked, edit menu appears.", async ()=>{
@@ -82,7 +78,7 @@ describe("Color Interface", ()=>{
         const firstColor = colors[0];
         userEvent.click(firstColor);
     
-        const editMenuText = await screen.findByText('edit color');
+        const editMenuText = await screen.findByTestId(/edit_menu/i);
         expect(editMenuText).toBeTruthy();
     });
     
@@ -93,12 +89,12 @@ describe("Color Interface", ()=>{
         let firstColor = colors[0];
         userEvent.click(firstColor);
     
-        const button = screen.getByRole("button", {name:/cancel/i});
+        const button = screen.getByTestId("cancel_button");
         userEvent.click(button);
             
         await waitFor(()=>{
-            const editMenuText = screen.queryByText('edit color');
-            expect(editMenuText).toBeFalsy();
+            const editMenu = screen.queryByTestId('edit_menu');
+            expect(editMenu).toBeFalsy();
         });
     });
     
@@ -109,21 +105,21 @@ describe("Color Interface", ()=>{
         let firstColor = colors[0];
         userEvent.click(firstColor);
     
-        const colorName = await screen.findByLabelText(/color name:/i);
+        const colorName = await screen.findByTestId("colorName");
         userEvent.type(colorName, "{selectall}{del}testColor");
     
-        const colorHex = await screen.findByLabelText(/hex code:/i);
+        const colorHex = await screen.findByTestId("colorHex");
         userEvent.type(colorHex, "{selectall}{del}#000000");
     
-        let saveButton = await screen.findByTestId("submitButton");
+        let saveButton = await screen.findByTestId("submit_button");
         userEvent.click(saveButton);
-        saveButton = await screen.findByTestId("submitButton");
-        saveButton = await screen.findByTestId("submitButton");
+        saveButton = await screen.findByTestId("submit_button");
+        saveButton = await screen.findByTestId("submit_button");
 
-        await waitFor( async ()=>{
+        await waitFor( ()=>{
             colors = screen.queryAllByTestId(/color/i);
             const firstColor = colors[0];
-            expect(firstColor.textContent).toContain("testColor");
+            expect(firstColor.textContent).toMatch(/testColor/);
     
             const colorBox = firstColor.children[1];
             expect(colorBox.style.backgroundColor).toBe('rgb(0, 0, 0)');

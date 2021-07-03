@@ -22,11 +22,11 @@ test("Renders a list of colors without errors", () => {
 
 test("Renders the EditForm when editing = true but not when editing = false", () => {
     const { rerender } = render(<ColorList colors={[]} editing={true}/>);
-    let editMenu = screen.queryByTestId('editMenu');
+    let editMenu = screen.queryByTestId('edit_menu');
     expect(editMenu).toBeInTheDocument();
 
     rerender(<ColorList colors={[]} editing={false}/>);
-    editMenu = screen.queryByTestId('editMenu');
+    editMenu = screen.queryByTestId('edit_menu');
 
     expect(editMenu).not.toBeInTheDocument();
 });
