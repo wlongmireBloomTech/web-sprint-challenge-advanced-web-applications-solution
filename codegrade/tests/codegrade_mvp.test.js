@@ -12,14 +12,18 @@ const correctPassword = "School";
 
 const doLogin = (username, password)=> {
     const nameInput = document.querySelector("#username");
+    const nameInput2 = screen.queryByTestId("username");
+
     const passwordInput = document.querySelector("#password");
+    const passwordInput2 = screen.queryByTestId("password");
 
+    const nameI = nameInput2 || nameInput
+    const passwordI = passwordInput2 || passwordInput
+    userEvent.clear(nameI);
+    userEvent.type(nameI, username);
 
-    userEvent.clear(nameInput);
-    userEvent.type(nameInput, username);
-
-    userEvent.clear(passwordInput);
-    userEvent.type(passwordInput, password);
+    userEvent.clear(passwordI);
+    userEvent.type(passwordI, password);
 
     const button = screen.getByRole("button");
     userEvent.click(button);
