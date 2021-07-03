@@ -1,8 +1,10 @@
 import React from 'react';
+import MutationObserver from 'mutationobserver-shim';
+
 import { render, screen} from "@testing-library/react";
 import BubblePage from './BubblePage';
 
-import mockFetchColorService from './../services/fetchColorService';
+import mockFetchColorService from '../services/fetchColorService';
 jest.mock('./../services/fetchColorService')
 
 test("renders approprate number of colors passed in through mock", async ()=> {

@@ -1,7 +1,7 @@
 import React from 'react';
-import MutationObserver from 'mutationobserver-shim';
+// import MutationObserver from 'mutationobserver-shim';
 
-import { render, screen, wait, waitFor} from '@testing-library/react';
+import { render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import App from "./App.js";
