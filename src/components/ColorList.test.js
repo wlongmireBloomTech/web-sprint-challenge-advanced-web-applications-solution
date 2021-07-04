@@ -19,7 +19,7 @@ test("Renders a list of colors without errors", () => {
     const colorsItems = screen.queryAllByTestId("color");
     expect(colorsItems).toHaveLength(3);
 });
-
+// 
 test("Renders the EditForm when editing = true but not when editing = false", () => {
     const { rerender } = render(<ColorList colors={[]} editing={true}/>);
     let editMenu = screen.queryByTestId('edit_menu');
