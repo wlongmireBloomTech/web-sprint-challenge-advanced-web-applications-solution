@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen} from "@testing-library/react";
-import ColorList from '../src/components/ColorList';
+import ColorList from './ColorList';
 
 test("Renders an empty list of colors without errors", () => {
     const colors = [];

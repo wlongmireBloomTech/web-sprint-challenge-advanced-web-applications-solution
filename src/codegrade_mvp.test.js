@@ -4,7 +4,7 @@ import MutationObserver from 'mutationobserver-shim';
 import { render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import App from "../../src/App.js";
+import App from "./App.js";
 
 const correctUsername = "Lambda";
 const correctPassword = "School";
@@ -49,7 +49,7 @@ describe("Login Authentication", ()=>{
 
     test("App navigates to /bubbles when correct username/password is given", async ()=>{
         render(<App />);
-        doLogin("adbmaL", "loohcS");
+        doLogin(correctUsername, correctPassword);
 
         await waitFor(()=>{
             const bubblesTitle = screen.getByText(/bubbles/i);
@@ -101,57 +101,6 @@ describe("Color Interface", ()=>{
         await waitFor(()=>{
             const editMenu = screen.queryByTestId('edit_menu');
             expect(editMenu).toBeFalsy();
-        });
-    });
-    
-    test("When a new color name is entered and save is clicked, that name is replaced within the colors list", async ()=>{
-        render(<App />);
-        
-        let colors = await screen.findAllByTestId(/color/i);
-        let firstColor = colors[0];
-        userEvent.click(firstColor);
-    
-        const colorName = await screen.findByTestId("colorName");
-        userEvent.type(colorName, "{selectall}{del}testColor");
-    
-        const colorHex = await screen.findByTestId("colorHex");
-        userEvent.type(colorHex, "{selectall}{del}000000#");
-    
-        let saveButton = await screen.findByTestId("submit_button");
-        userEvent.click(saveButton);
-        saveButton = await screen.findByTestId("submit_button");
-        saveButton = await screen.findByTestId("submit_button");
-
-        await waitFor( ()=>{
-            colors = screen.queryAllByTestId(/color/i);
-            const firstColor = colors[0];
-            expect(firstColor.textContent).toMatch(/roloCtset/);
-    
-            const colorBox = firstColor.children[1];
-            expect(colorBox.style.backgroundColor).toBe('rgb(0, 0, 0)');
-        });
-    });
-    
-    test("When the delete icon is clicked, that color is removed from the colors list", async ()=>{
-        render(<App />);
-        
-        const colors = await screen.findAllByTestId(/color/i);
-        const firstColor = colors[0];
-        const firstColorName = firstColor.textContent;
-    
-        userEvent.click(firstColor);
-    
-        let deleteLink;
-    
-        await waitFor(()=>{
-            deleteLink = firstColor.firstChild;
-        });
-    
-        userEvent.click(deleteLink);
-    
-        await waitFor(()=>{
-            const missingColor = screen.queryByText(firstColorName);
-            expect(missingColor).toBeNull();
         });
     });
 });
