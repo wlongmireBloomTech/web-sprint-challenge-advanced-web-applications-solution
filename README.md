@@ -28,6 +28,9 @@ In this project you will create a login page and request a token from the server
 
 ### Task 2: CodeGrade Setup
 
+#### NOTE: If you have generated your code repos through email, there is no need to do the following steps.
+#### ONLY DO THESE STEPS IF INDICATED BY YOUR INSTRUCTOR.
+
 * [ ] Open the assignment in Canvas and click on the "Set up git" option.
 * [ ] Follow instructions to set up Codegrade's Webhook and Deploy Key, making sure your deployment is set to your `<firstName-lastName>`.
 * [ ] Push your first commit: `git commit --allow-empty -m "first commit" && git push`
@@ -98,4 +101,4 @@ Be prepared to demonstrate your understanding of this week's concepts by answeri
 1. Explain what a token is used for.
 2. What steps can you take in your web apps to keep your data secure?
 3. Describe how web servers work.
-4. Which HTTP methods can be mapped to the CRUD acronym that we use when interfacing with APIs/Servers. 
+4. Which HTTP methods can be mapped to the CRUD acronym that we use when interfacing with APIs/Servers.
