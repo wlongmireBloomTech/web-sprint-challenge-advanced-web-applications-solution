@@ -139,7 +139,7 @@ export const handlers = [
         ctx.json(colors)
       );
     } else {
-      res(
+      return res(
         ctx.status(403),
         ctx.json({ error: "User must be logged in to do that." })
       )

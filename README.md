@@ -43,6 +43,7 @@ Your finished project must include all of the following requirements. **Unlike o
 > *Build a login form to authenticate your users along with all the components and utilities needed to support authentication.*
 
 * [ ] In `Login.js`, build all UI and state functionality needed to capture a username and password.
+* [ ] Add in two routes that display the login component, one for the default path '/' and one for the login path '/login'.
 * [ ] **Make sure that the input for your username and password includes the id="username" and id="password" attributes. Also make sure the submit button for this form contains the id="error" attribute. Codegrade autotests will fail without them.**
 * [ ] Build in functionality that would allow an error to be displayed in the provided p tag if either the username or password is incorrect.
 * [ ] **Make sure your error p tag has an id="error" attribute attached. Codegrade autotests will fail without them.**
@@ -85,12 +86,10 @@ Your finished project must include all of the following requirements. **Unlike o
 * [Color-Hex](https://www.color-hex.com/)
 
 ## Submission format
-
-* [ ] Submit via Codegrade by committing and pushing any new changes.
-* [ ] Submit a pull-request to merge <firstName-lastName> branch into main. **Please don't merge your own pull request and make sure you are on your own repo**
+* [ ] Submit via Codegrade by commiting and pushing any new changes.
 * [ ] Check codegrade for automated feedback.
-* [ ] Check codegrade on Monday following the Sprint Challenge for reviewer feedback.
-* [ ] Any changes pushed to your <firstName-lastName> branch will resubmitted to codegrade if pushed before the sprint challenge deadline. Changes after the deadline will not be reviewed.
+* [ ] Check codegrade on Monday following the Sprint Challenge for reviewer feedback. For more information on how to access and read your feedback, check [here](https://www.notion.so/lambdaschool/How-to-View-Feedback-in-CodeGrade-c5147cee220c4044a25de28bcb6bb54a)
+* [ ] Any changes pushed to your <firstName-lastName> branch will resubmited to codegrade if pushed before the sprint challenge deadline. Changes after the deadline will not be reviewed.
 
 ## Interview Questions
 
