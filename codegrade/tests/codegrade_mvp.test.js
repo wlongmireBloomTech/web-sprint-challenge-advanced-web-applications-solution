@@ -49,7 +49,8 @@ describe("Login Authentication", ()=>{
 
     test("App navigates to /bubbles when correct username/password is given", async ()=>{
         render(<App />);
-        doLogin("adbmaL", "loohcS");
+        // doLogin("adbmaL", "loohcS");
+        doLogin("Lambda", "School");
 
         await waitFor(()=>{
             const bubblesTitle = screen.getByText(/bubbles/i);
