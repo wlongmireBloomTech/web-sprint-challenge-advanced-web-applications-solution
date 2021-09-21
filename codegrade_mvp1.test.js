@@ -1,5 +1,6 @@
 import { server } from './src/mocks/server'
 import { resetArticles } from './src/mocks/data'
+import data from './src/mocks/data'
 import { BrowserRouter as Router, Route} from "react-router-dom";
 
 import MutationObserver from 'mutationobserver-shim';
@@ -20,16 +21,11 @@ afterAll(() => { server.close() })
 beforeEach(() => {
   resetArticles()
 })
+
 afterEach(() => {
   server.resetHandlers()
   document.body.innerHTML = ''
 })
-
-test('Is the latest version of the project', () => {
-  const pjson = require('./package.json')
-  expect(pjson.version).toBe('0.0.1')
-});
-
 
 const cred = {
   username: "Lambda",

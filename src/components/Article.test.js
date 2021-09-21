@@ -5,46 +5,55 @@ import userEvent from '@testing-library/user-event';
 import MutationObserver from 'mutationobserver-shim';
 import Article from './Article';
 
-
 const article = {
-    id: "12312",
+    headline:"This headline",
+    author:"This author",
+    summary:"",
+    body:"",
+    image:0,
     createdOn: Date.now(),
-    headline: "this headline",
-    author: "this author",
-    summary: "this summary",
-    body: "this body"
+    id:""
 }
 
 const articleNoAuthor = {
-    id: "12312",
+    headline:"This headline",
+    author:"",
+    summary:"",
+    body:"",
+    image:0,
     createdOn: Date.now(),
-    headline: "this headline",
-    summary: "this summary",
-    body: "this body"
+    id:""
 }
 
 test('renders component without errors', ()=> {
     render(<Article article={article}/>);
 });
 
-test('renders headline, author and article passed in through props', ()=> {
+test('renders headline, author from the article when passed in through props. (Use Date.now for test createdOn date.)', ()=> {
     render(<Article article={article}/>);
-    const headline = screen.getByText(/this headline/i);
-    expect(headline).toBeInTheDocument();
+    const headline = screen.queryByTestId(/headline/i);
+    const author = screen.queryByTestId(/author/i);
+    
+    expect(headline).toHaveTextContent(/This headline/i);
+    expect(author).toBeInTheDocument(/This author/i);
 });
 
 test('renders "Associated Press" when no author is given', ()=> {
     render(<Article article={articleNoAuthor}/>);
-    const headline = screen.getByText(/Associated Press/i);
-    expect(headline).toBeInTheDocument();
+    const author = screen.queryByTestId(/author/i);
+    
+    expect(author).toBeInTheDocument(/Associated Press/i);
 });
 
 test('executes handleDelete when the delete button is pressed', ()=> {
     const handleDelete = jest.fn();
-    render(<Article article={article} handleDelete={handleDelete}/>);
-    const button = screen.getByTestId("deleteButton");
-    userEvent.click(button);
-    expect(handleDelete).toBeCalled();
+    render(<Article article={articleNoAuthor} handleDelete={handleDelete}/>);
+    
+    const deleteButton = screen.queryByTestId('deleteButton');
+    userEvent.click(deleteButton);
+    
+    expect(handleDelete.mock.calls).toHaveLength(1);
 });
 
+//Task List:
 //1. Complete all above tests. Create test article data when needed.
